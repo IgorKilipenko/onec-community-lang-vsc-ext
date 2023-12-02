@@ -1,0 +1,75 @@
+{
+    "folding": {
+		"markers": {
+			//"start": "^\\s*//\\s*#?Область\\b",
+			//"end": "^\\s*//\\s*#?КонецОбласти\\b"
+            "start": "^\\s*#Область|^\\s*//{",
+			"end": "^\\s*#КонецОбласти|^\\s*//}"
+		}
+	},
+    "comments": {
+		"lineComment": "//",
+		"blockComment": [
+			"/*",
+			"*/"
+		]
+	},
+    "brackets": [
+		[
+			"{",
+			"}"
+		],
+		[
+			"[",
+			"]"
+		],
+		[
+			"(",
+			")"
+		]
+	],
+    "autoClosingPairs": [
+		{
+			"open": "{",
+			"close": "}"
+		},
+		{
+			"open": "[",
+			"close": "]"
+		},
+		{
+			"open": "(",
+			"close": ")"
+		},
+		{
+			"open": "'",
+			"close": "'",
+			"notIn": [
+				"string",
+				"comment"
+			]
+		},
+		{
+			"open": "\"",
+			"close": "\"",
+			"notIn": [
+				"string"
+			]
+		},
+		{
+			"open": "`",
+			"close": "`",
+			"notIn": [
+				"string",
+				"comment"
+			]
+		},
+		{
+			"open": "/**",
+			"close": " */",
+			"notIn": [
+				"string"
+			]
+		}
+	],
+}
