@@ -15,7 +15,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "vsc-1c-lang.helloWorld",
+        "command": "onec-community-lang.helloWorld",
         "title": "Hello World"
       }
     ],
