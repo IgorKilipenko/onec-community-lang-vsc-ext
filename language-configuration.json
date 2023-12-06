@@ -1,75 +1,50 @@
 {
-    "folding": {
-		"markers": {
-			//"start": "^\\s*//\\s*#?Область\\b",
-			//"end": "^\\s*//\\s*#?КонецОбласти\\b"
-            "start": "^\\s*#Область|^\\s*//{",
-			"end": "^\\s*#КонецОбласти|^\\s*//}"
-		}
-	},
-    "comments": {
-		"lineComment": "//",
-		"blockComment": [
-			"/*",
-			"*/"
-		]
-	},
-    "brackets": [
-		[
-			"{",
-			"}"
-		],
-		[
-			"[",
-			"]"
-		],
-		[
-			"(",
-			")"
-		]
-	],
-    "autoClosingPairs": [
-		{
-			"open": "{",
-			"close": "}"
-		},
-		{
-			"open": "[",
-			"close": "]"
-		},
-		{
-			"open": "(",
-			"close": ")"
-		},
-		{
-			"open": "'",
-			"close": "'",
-			"notIn": [
-				"string",
-				"comment"
-			]
-		},
-		{
-			"open": "\"",
-			"close": "\"",
-			"notIn": [
-				"string"
-			]
-		},
-		{
-			"open": "`",
-			"close": "`",
-			"notIn": [
-				"string",
-				"comment"
-			]
-		},
-		{
-			"open": "/**",
-			"close": " */",
-			"notIn": [
-				"string"
-			]
-		}
-	],
+  "folding": {
+    "markers": {
+      //"start": "^\\s*//\\s*#?Область\\b",
+      //"end": "^\\s*//\\s*#?КонецОбласти\\b"
+      "start": "^\\s*#Область|^\\s*//{",
+      "end": "^\\s*#КонецОбласти|^\\s*//}"
+    }
+  },
+  "comments": {
+    "lineComment": "//",
+    "blockComment": ["/*", "*/"]
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+  ],
+  "autoClosingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    { "open": "Тогда", "close": "КонецЕсли;", "notIn": ["string", "comment"] },
+    { "open": "Функция", "close": "КонецФункции", "notIn": ["string", "comment"] },
+    { "open": "Процедура", "close": "КонецПроцедуры", "notIn": ["string", "comment"] },
+    { "open": "\"", "close": "\"", "notIn": ["string"] }
+  ],
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""],
+    ["<", ">"]
+  ],
+  "onEnterRules": [
+    {
+      "beforeText": "^\\s*Если\\s+.+Тогда\\s*$",
+      "action": { "indent": "indent" }
+    },
+    {
+      "beforeText": "^\\s*(Процедура)|(Функция)\\s*$",
+      "afterText": "^\\s*Конец(Процедуры)|(Функции)\\s*$",
+      "action": { "indent": "indentOutdent" }
+    },
+    {
+      "beforeText": "^\\s*(?:Процедура)|(?:Функция)\\s+[А-Яа-яЁёA-Za-z_0-9]+\\s*\\(.*\\)\\s*$",
+      "action": { "indent": "indent" }
+    },
+  ]
 }
