@@ -1,11 +1,10 @@
 {
-  "name": "1C (BSL)",
+  "name": "1C:Community",
   "scopeName": "source.bsl",
   "fileTypes": [
     "bsl",
     "os"
   ],
-  "uuid": "cf0633ff-beee-424a-a2f7-3dce4093e139",
   "patterns": [
     {
       "include": "#basic"
@@ -205,8 +204,8 @@
     "miscellaneous": {
       "patterns": [
         {
-          "name": "keyword.operator.logical.bsl",
-          "match": "(?i:(?<=[^\\wа-яё\\.]|^)(НЕ|NOT|И|AND|ИЛИ|OR)(?=[^\\wа-яё\\.]|$))"
+          "name": "keyword.control.logical.bsl",
+          "match": "(?i:\\b(НЕ|NOT|И|AND|ИЛИ|OR)\\b)"
         },
         {
           "name": "keyword.operator.comparison.bsl",
