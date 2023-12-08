@@ -137,7 +137,7 @@
           "include": "#type-function-return-type"
         },
         {
-          "include": "#decl-block"
+          "include": "#function-decl-block"
         }
       ]
     },
@@ -251,6 +251,16 @@
               "name": "keyword.operator.optional.js"
             }
           }
+        }
+      ]
+    },
+    "function-decl-block": {
+      "name": "meta.block.js",
+      "begin": "^[\\s]*(?<=Процедура\\b\\.+(?:\\bЭкспорт\\b|\\))\\s+$)",
+      "end": "^[\\s]*(?=КонецПроцедуры\\b$)",
+      "patterns": [
+        {
+          "include": "#statements"
         }
       ]
     },
