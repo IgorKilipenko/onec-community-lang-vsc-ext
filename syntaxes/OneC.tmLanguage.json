@@ -82,10 +82,69 @@
         },
         {
           "name": "storage.modifier.js",
-          "match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(declare|export)(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))"
+          "match": "(?i:(?<=[^\\wа-яё\\.]|^)(Экспорт|Export)(?=[^\\wа-яё\\.]|$))"
         }
       ]
     },
+    "function-declaration": {
+			"name": "meta.function.bsl",
+			"begin": "^\\s*(Процедура|Функция)\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*\\(.*\\)(?:\\s+(Экспорт\\b))?\\s*$",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.function.bsl"
+				},
+        "2": {
+					"name": "meta.definition.function.bsl entity.name.function.bsl"
+				},
+				"3": {
+					"name": "storage.modifier.bsl"
+				}
+			},
+			"end": "^\\s*(Конец(?:Процедуры|Функции))\\s*$",
+      "endCaptures": {
+        "1": {
+          "name": "storage.type.function.bsl"
+        }
+      },
+			"patterns": [
+				{
+					"include": "#function-name"
+				},
+				{
+					"include": "#function-body"
+				}
+			]
+		},
+    "function-name": {
+			"name": "meta.definition.function.bsl entity.name.function.bsl",
+			"match": "[_$[:alpha:]][_$[:alnum:]]*"
+		},
+    "function-body": {
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#type-parameters"
+				},
+				{
+					"include": "#function-parameters"
+				},
+				{
+					"include": "#return-type"
+				},
+				{
+					"include": "#type-function-return-type"
+				},
+				{
+					"include": "#decl-block"
+				},
+				{
+					"name": "keyword.generator.asterisk.js",
+					"match": "\\*"
+				}
+			]
+		},
     "comment": {
       "patterns": [
         {
