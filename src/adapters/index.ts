@@ -1,1 +1,0 @@
-export * as vscAdapter  from "./vsc-adapter";

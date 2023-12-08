@@ -1,0 +1,20 @@
+{
+  "name": "onec-community-lang-client",
+  "displayName": "1C:Community language client",
+  "description": "Support for 1C bsl files",
+  "version": "0.0.1",
+
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+
+  "dependencies": {
+		"vscode-languageclient": "^9.0.1"
+	},
+
+  "devDependencies": {
+    "@types/vscode": "^1.84.0",
+    "@vscode/test-electron": "^2.3.6",
+    "glob": "^10.3.10"
+  }
+}
