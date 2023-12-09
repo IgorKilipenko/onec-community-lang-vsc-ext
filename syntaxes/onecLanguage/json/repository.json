@@ -1,0 +1,100 @@
+{
+  "test-abb":{},
+  "name": "1C:Community",
+  "scopeName": "source.bsl",
+  "fileTypes": ["bsl", "os"],
+  "patterns": [
+    {
+      "include": "#directives__"
+    },
+    {
+      "include": "#statements"
+    },
+    {
+      "include": "#shebang__"
+    }
+  ],
+  "repository": {
+    "statements": {
+      "patterns": [
+        {
+          "include": "#declaration"
+        },
+        {
+          "include": "#control-statement__"
+        },
+        {
+          "include": "#after-operator-block-as-object-literal__"
+        },
+        {
+          "include": "#decl-block__"
+        },
+        {
+          "include": "#label__"
+        },
+        {
+          "include": "#expression"
+        },
+        {
+          "include": "#punctuation-semicolon"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#comment"
+        }
+      ]
+    },
+    "expression": {
+      "patterns": [
+        {
+          "include": "#expressionWithoutIdentifiers__"
+        },
+        {
+          "include": "#identifiers"
+        },
+        {
+          "include": "#expressionPunctuations__"
+        }
+      ]
+    },
+    "declaration": {
+      "patterns": [
+        {
+          "include": "#decorator__"
+        },
+        {
+          "include": "#var-declaration"
+        },
+        {
+          "include": "#function-declaration"
+        },
+        {
+          "include": "#class-declaration__"
+        },
+        {
+          "include": "#interface-declaration__"
+        },
+        {
+          "include": "#enum-declaration__"
+        },
+        {
+          "include": "#namespace-declaration__"
+        },
+        {
+          "include": "#type-alias-declaration__"
+        },
+        {
+          "include": "#import-equals-declaration__"
+        },
+        {
+          "include": "#import-declaration__"
+        },
+        {
+          "include": "#export-declaration__"
+        }
+      ]
+    }
+  }
+}

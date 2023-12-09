@@ -15,7 +15,10 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			}
+			},
+			"dependsOn": [
+				"build-scripts"
+			]
 		},
 		{
 			"type": "npm",
@@ -35,6 +38,18 @@
 				"npm: watch-tests"
 			],
 			"problemMatcher": []
+		},
+		{
+			"label": "build-language",
+			"type": "shell",
+			"group": "build",
+			"command": "npx tsc ./syntaxes/onecLanguage/onecLanguage.ts --baseUrl ./syntaxes/onecLanguage && node ./syntaxes/onecLanguage/onecLanguage.js"
+		},
+		{
+			"label": "build-scripts",
+			"dependsOn": [
+				"build-language"
+			]
 		}
 	]
 }
