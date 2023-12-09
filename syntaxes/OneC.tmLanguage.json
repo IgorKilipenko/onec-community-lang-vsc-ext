@@ -4,13 +4,16 @@
   "fileTypes": ["bsl", "os"],
   "patterns": [
     {
-      "include": "#directives"
+      "include": "#directives__"
     },
     {
-      "include": "#statements"
+      "include": "#statements__"
     },
     {
-      "include": "#shebang"
+      "include": "#shebang__"
+    },
+    {
+      "include": "#function-declaration"
     }
   ],
   "repository": {
@@ -45,6 +48,19 @@
         }
       ]
     },
+    "expression": {
+			"patterns": [
+				{
+					"include": "#expressionWithoutIdentifiers__"
+				},
+				{
+					"include": "#identifiers"
+				},
+				{
+					"include": "#expressionPunctuations__"
+				}
+			]
+		},
     "declaration": {
       "patterns": [
         {
@@ -83,56 +99,97 @@
       ]
     },
     "punctuation-comma": {
-			"name": "punctuation.separator.comma.bsl",
-			"match": ","
-		},
-		"punctuation-semicolon": {
-			"name": "punctuation.terminator.statement.bsl",
-			"match": ";"
-		},
+      "name": "punctuation.separator.comma.bsl",
+      "match": ","
+    },
+    "punctuation-semicolon": {
+      "name": "punctuation.terminator.statement.bsl",
+      "match": ";"
+    },
     "identifiers": {
-			"patterns": [
-				{
-					"include": "#object-identifiers"
-				},
-				{
-					"match": "(?:(\\.)|(\\?\\.(?!\\s*[[:digit:]])))\\s*(\\#?[[:upper:]][_$[:digit:][:upper:]]*)(?![_$[:alnum:]])",
-					"captures": {
-						"1": {
-							"name": "punctuation.accessor.bsl"
-						},
-						"2": {
-							"name": "punctuation.accessor.optional.bsl"
-						},
-						"3": {
-							"name": "variable.other.constant.property.bsl"
-						}
-					}
-				},
-				{
-					"match": "(?:(\\.)|(\\?\\.(?!\\s*[[:digit:]])))\\s*(\\#?[_$[:alpha:]][_$[:alnum:]]*)",
-					"captures": {
-						"1": {
-							"name": "punctuation.accessor.bsl"
-						},
-						"2": {
-							"name": "punctuation.accessor.optional.bsl"
-						},
-						"3": {
-							"name": "variable.other.property.bsl"
-						}
-					}
-				},
-				{
-					"name": "variable.other.constant.bsl",
-					"match": "([[:upper:]][_$[:digit:][:upper:]]*)(?![_$[:alnum:]])"
-				},
-				{
-					"name": "variable.other.readwrite.bsl",
-					"match": "[_$[:alpha:]][_$[:alnum:]]*"
-				}
-			]
-		},
+      "patterns": [
+        {
+          "include": "#object-identifiers"
+        },
+        {
+          "match": "(?:(\\.)|(\\?\\.(?!\\s*[[:digit:]])))\\s*(\\#?[[:upper:]][_$[:digit:][:upper:]]*)(?![_$[:alnum:]])",
+          "captures": {
+            "1": {
+              "name": "punctuation.accessor.bsl"
+            },
+            "2": {
+              "name": "punctuation.accessor.optional.bsl"
+            },
+            "3": {
+              "name": "variable.other.constant.property.bsl"
+            }
+          }
+        },
+        {
+          "match": "(?:(\\.)|(\\?\\.(?!\\s*[[:digit:]])))\\s*(\\#?[_$[:alpha:]][_$[:alnum:]]*)",
+          "captures": {
+            "1": {
+              "name": "punctuation.accessor.bsl"
+            },
+            "2": {
+              "name": "punctuation.accessor.optional.bsl"
+            },
+            "3": {
+              "name": "variable.other.property.bsl"
+            }
+          }
+        },
+        {
+          "name": "variable.other.constant.bsl",
+          "match": "([[:upper:]][_$[:digit:][:upper:]]*)(?![_$[:alnum:]])"
+        },
+        {
+          "name": "variable.other.readwrite.bsl",
+          "match": "[_$[:alpha:]][_$[:alnum:]]*"
+        }
+      ]
+    },
+    "object-identifiers": {
+      "patterns": [
+        {
+          "name": "support.class.bsl",
+          "match": "([_$[:alpha:]][_$[:alnum:]]*)(?=\\s*\\??\\.\\s*prototype\\b(?!\\$))"
+        },
+        {
+          "match": "(\\.)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(?=\\()",
+          "captures": {
+            "1": {
+              "name": "punctuation.accessor.bsl"
+            },
+            "2": {
+              "name": "entity.name.function.bsl"
+            }
+          }
+        },
+        {
+          "match": "(\\.)([_$[:alpha:]][_$[:alnum:]]*)\\s*(?!\\()",
+          "captures": {
+            "1": {
+              "name": "punctuation.accessor.bsl"
+            },
+            "2": {
+              "name": "entity.name.function.bsl"
+            }
+          }
+        },
+        {
+          "match": "(?x)(?:\n  ([[:upper:]][_$[:digit:][:upper:]]*) |\n  ([_$[:alpha:]][_$[:alnum:]]*)\n)(?=\\s*\\??\\.\\s*\\#?[_$[:alpha:]][_$[:alnum:]]*)",
+          "captures": {
+            "1": {
+              "name": "variable.other.constant.object.bsl"
+            },
+            "2": {
+              "name": "variable.other.object.bsl"
+            }
+          }
+        }
+      ]
+    },
     "function-declaration": {
       "name": "meta.function.bsl",
       "begin": "^\\s*(Процедура|Функция)\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*",
@@ -152,16 +209,24 @@
       },
       "patterns": [
         {
-          "include": "#function-name"
-        },
-        {
           "include": "#function-body"
         }
       ]
     },
     "function-name": {
-      "name": "meta.definition.function.bsl entity.name.function.bsl",
-      "match": "[_$[:alpha:]][_$[:alnum:]]*"
+      "patterns": [
+        {
+          "match": "(\\.)([_$[:alpha:]][_$[:alnum:]]*)\\s*(?=\\()",
+          "captures": {
+            "1": {
+              "name": "punctuation.accessor.bsl"
+            },
+            "2": {
+              "name": "entity.name.function.bsl"
+            }
+          }
+        }
+      ]
     },
     "function-body": {
       "patterns": [
@@ -169,25 +234,25 @@
           "include": "#comment"
         },
         {
-          "include": "#type-parameters"
+          "include": "#type-parameters__"
         },
         {
-          "include": "#function-parameters"
+          "include": "#function-parameters__"
         },
         {
           "include": "#function-export"
         },
         {
-          "include": "#return-type"
+          "include": "#return-type__"
         },
         {
-          "include": "#type-function-return-type"
+          "include": "#type-function-return-type__"
         },
         {
-          "include": "#function-decl-block"
+          "include": "#statements"
         },
         {
-          "include": "#identifiers"
+          "include": "#function-declaration"
         }
       ]
     },
@@ -301,16 +366,6 @@
               "name": "keyword.operator.optional.bsl"
             }
           }
-        }
-      ]
-    },
-    "function-decl-block": {
-      "name": "meta.block.bsl",
-      "begin": "^[\\s]*(?<=Процедура\\b\\.+(?:\\bЭкспорт\\b|\\))\\s+$)",
-      "end": "^[\\s]*(?=КонецПроцедуры\\b$)",
-      "patterns": [
-        {
-          "include": "#statements"
         }
       ]
     },
