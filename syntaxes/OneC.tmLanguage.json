@@ -51,7 +51,7 @@
           "include": "#decorator"
         },
         {
-          "include": "#var-expr"
+          "include": "#var-declaration"
         },
         {
           "include": "#function-declaration"
@@ -79,13 +79,60 @@
         },
         {
           "include": "#export-declaration"
-        },
-        {
-          "name": "storage.modifier.js",
-          "match": "(?i:(?<=[^\\wа-яё\\.]|^)(Экспорт|Export)(?=[^\\wа-яё\\.]|$))"
         }
       ]
     },
+    "punctuation-comma": {
+			"name": "punctuation.separator.comma.bsl",
+			"match": ","
+		},
+		"punctuation-semicolon": {
+			"name": "punctuation.terminator.statement.bsl",
+			"match": ";"
+		},
+    "identifiers": {
+			"patterns": [
+				{
+					"include": "#object-identifiers"
+				},
+				{
+					"match": "(?:(\\.)|(\\?\\.(?!\\s*[[:digit:]])))\\s*(\\#?[[:upper:]][_$[:digit:][:upper:]]*)(?![_$[:alnum:]])",
+					"captures": {
+						"1": {
+							"name": "punctuation.accessor.bsl"
+						},
+						"2": {
+							"name": "punctuation.accessor.optional.bsl"
+						},
+						"3": {
+							"name": "variable.other.constant.property.bsl"
+						}
+					}
+				},
+				{
+					"match": "(?:(\\.)|(\\?\\.(?!\\s*[[:digit:]])))\\s*(\\#?[_$[:alpha:]][_$[:alnum:]]*)",
+					"captures": {
+						"1": {
+							"name": "punctuation.accessor.bsl"
+						},
+						"2": {
+							"name": "punctuation.accessor.optional.bsl"
+						},
+						"3": {
+							"name": "variable.other.property.bsl"
+						}
+					}
+				},
+				{
+					"name": "variable.other.constant.bsl",
+					"match": "([[:upper:]][_$[:digit:][:upper:]]*)(?![_$[:alnum:]])"
+				},
+				{
+					"name": "variable.other.readwrite.bsl",
+					"match": "[_$[:alpha:]][_$[:alnum:]]*"
+				}
+			]
+		},
     "function-declaration": {
       "name": "meta.function.bsl",
       "begin": "^\\s*(Процедура|Функция)\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*",
@@ -138,6 +185,9 @@
         },
         {
           "include": "#function-decl-block"
+        },
+        {
+          "include": "#identifiers"
         }
       ]
     },
@@ -154,17 +204,17 @@
       ]
     },
     "function-parameters": {
-      "name": "meta.parameters.js",
+      "name": "meta.parameters.bsl",
       "begin": "\\(",
       "beginCaptures": {
         "0": {
-          "name": "punctuation.definition.parameters.begin.js"
+          "name": "punctuation.definition.parameters.begin.bsl"
         }
       },
       "end": "\\)",
       "endCaptures": {
         "0": {
-          "name": "punctuation.definition.parameters.end.js"
+          "name": "punctuation.definition.parameters.end.bsl"
         }
       },
       "patterns": [
@@ -197,7 +247,7 @@
           "include": "#variable-initializer"
         },
         {
-          "name": "punctuation.separator.parameter.js",
+          "name": "punctuation.separator.parameter.bsl",
           "match": ","
         }
       ]
@@ -208,7 +258,7 @@
           "match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(override|public|protected|private|readonly)\\s+(?=(override|public|protected|private|readonly)\\s+)",
           "captures": {
             "1": {
-              "name": "storage.modifier.js"
+              "name": "storage.modifier.bsl"
             }
           }
         },
@@ -216,19 +266,19 @@
           "match": "(?x)(?:(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(override|public|private|protected|readonly)\\s+)?(?:(\\.\\.\\.)\\s*)?(?<!=|:)(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:(this)|([_$[:alpha:]][_$[:alnum:]]*))(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))\\s*(\\??)(?=\\s*\n# function assignment |\n(=\\s*(\n  ((async\\s+)?(\n    (function\\s*[(<*]) |\n    (function\\s+) |\n    ([_$[:alpha:]][_$[:alnum:]]*\\s*=>)\n  )) |\n  ((async\\s*)?(\n    ((<\\s*$)|([\\(]\\s*((([\\{\\[]\\s*)?$)|((\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})\\s*((:\\s*\\{?$)|((\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+\\s*)?=\\s*)))|((\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\])\\s*((:\\s*\\[?$)|((\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+\\s*)?=\\s*)))))) |\n    # sure shot arrow functions even if => is on new line\n(\n  (<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<])*\\>)*\\>)*>\\s*)?\n  [(]\\s*(\\/\\*([^\\*]|(\\*[^\\/]))*\\*\\/\\s*)*\n  (\n    ([)]\\s*:) |                                                                                       # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                                                  # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                                              # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<])*\\>)*\\>)*>\\s*)?                                                                                 # typeparameters\n  \\(\\s*(\\/\\*([^\\*]|(\\*[^\\/]))*\\*\\/\\s*)*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\])|(\\.\\.\\.\\s*[_$[:alpha:]]))([^()\\'\\\"\\`]|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\'([^\\'\\\\]|\\\\.)*\\')|(\\\"([^\\\"\\\\]|\\\\.)*\\\")|(\\`([^\\`\\\\]|\\\\.)*\\`))*)?\\)   # parameters\n  (\\s*:\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+)?                                                                        # return type\n  \\s*=>                                                                                               # arrow operator\n)\n  ))\n)) |\n# typeannotation is fn type: < | () | (... | (param: | (param, | (param? | (param= | (param) =>\n(:\\s*(\n  (<) |\n  ([(]\\s*(\n    ([)]) |\n    (\\.\\.\\.) |\n    ([_$[:alnum:]]+\\s*(\n      ([:,?=])|\n      ([)]\\s*=>)\n    ))\n  ))\n)) |\n(:\\s*(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))Function(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))) |\n(:\\s*((<\\s*$)|([\\(]\\s*((([\\{\\[]\\s*)?$)|((\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})\\s*((:\\s*\\{?$)|((\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+\\s*)?=\\s*)))|((\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\])\\s*((:\\s*\\[?$)|((\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+\\s*)?=\\s*))))))) |\n(:\\s*(=>|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(<[^<>]*>)|[^<>(),=])+=\\s*(\n  ((async\\s+)?(\n    (function\\s*[(<*]) |\n    (function\\s+) |\n    ([_$[:alpha:]][_$[:alnum:]]*\\s*=>)\n  )) |\n  ((async\\s*)?(\n    ((<\\s*$)|([\\(]\\s*((([\\{\\[]\\s*)?$)|((\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})\\s*((:\\s*\\{?$)|((\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+\\s*)?=\\s*)))|((\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\])\\s*((:\\s*\\[?$)|((\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+\\s*)?=\\s*)))))) |\n    # sure shot arrow functions even if => is on new line\n(\n  (<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<])*\\>)*\\>)*>\\s*)?\n  [(]\\s*(\\/\\*([^\\*]|(\\*[^\\/]))*\\*\\/\\s*)*\n  (\n    ([)]\\s*:) |                                                                                       # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                                                  # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                                              # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*(((const\\s+)?[_$[:alpha:]])|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\]))([^=<>]|=[^<])*\\>)*\\>)*>\\s*)?                                                                                 # typeparameters\n  \\(\\s*(\\/\\*([^\\*]|(\\*[^\\/]))*\\*\\/\\s*)*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}))*\\})|(\\[([^\\[\\]]|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])*\\]))*\\])|(\\.\\.\\.\\s*[_$[:alpha:]]))([^()\\'\\\"\\`]|(\\(([^\\(\\)]|(\\(([^\\(\\)]|\\([^\\(\\)]*\\))*\\)))*\\))|(\\'([^\\'\\\\]|\\\\.)*\\')|(\\\"([^\\\"\\\\]|\\\\.)*\\\")|(\\`([^\\`\\\\]|\\\\.)*\\`))*)?\\)   # parameters\n  (\\s*:\\s*([^<>\\(\\)\\{\\}]|\\<([^<>]|\\<([^<>]|\\<[^<>]+\\>)+\\>)+\\>|\\([^\\(\\)]+\\)|\\{[^\\{\\}]+\\})+)?                                                                        # return type\n  \\s*=>                                                                                               # arrow operator\n)\n  ))\n)))",
           "captures": {
             "1": {
-              "name": "storage.modifier.js"
+              "name": "storage.modifier.bsl"
             },
             "2": {
-              "name": "keyword.operator.rest.js"
+              "name": "keyword.operator.rest.bsl"
             },
             "3": {
-              "name": "entity.name.function.js variable.language.this.js"
+              "name": "entity.name.function.bsl variable.language.this.bsl"
             },
             "4": {
-              "name": "entity.name.function.js"
+              "name": "entity.name.function.bsl"
             },
             "5": {
-              "name": "keyword.operator.optional.js"
+              "name": "keyword.operator.optional.bsl"
             }
           }
         },
@@ -236,26 +286,26 @@
           "match": "(?x)(?:(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(override|public|private|protected|readonly)\\s+)?(?:(\\.\\.\\.)\\s*)?(?<!=|:)(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:(this)|([_$[:alpha:]][_$[:alnum:]]*))(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))\\s*(\\??)",
           "captures": {
             "1": {
-              "name": "storage.modifier.js"
+              "name": "storage.modifier.bsl"
             },
             "2": {
-              "name": "keyword.operator.rest.js"
+              "name": "keyword.operator.rest.bsl"
             },
             "3": {
-              "name": "variable.parameter.js variable.language.this.js"
+              "name": "variable.parameter.bsl variable.language.this.bsl"
             },
             "4": {
-              "name": "variable.parameter.js"
+              "name": "variable.parameter.bsl"
             },
             "5": {
-              "name": "keyword.operator.optional.js"
+              "name": "keyword.operator.optional.bsl"
             }
           }
         }
       ]
     },
     "function-decl-block": {
-      "name": "meta.block.js",
+      "name": "meta.block.bsl",
       "begin": "^[\\s]*(?<=Процедура\\b\\.+(?:\\bЭкспорт\\b|\\))\\s+$)",
       "end": "^[\\s]*(?=КонецПроцедуры\\b$)",
       "patterns": [
@@ -264,20 +314,52 @@
         }
       ]
     },
+    "var-declaration": {
+      "comment": "Define of variable",
+      "begin": "(?i:(?<=[^\\wа-яё\\.]|^)(Перем|Var)\\s+([a-zа-яё0-9_]+)\\s*)",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.type.var.bsl"
+        },
+        "2": {
+          "name": "meta.definition.variable.bsl variable.other.readwrite.bsl"
+        }
+      },
+      "end": "(;)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.terminator.statement.bsl"
+        }
+      },
+      "patterns": [
+        {
+          "name": "punctuation.separator.comma.bsl",
+          "match": "(,)"
+        },
+        {
+          "name": "storage.modifier.bsl",
+          "match": "(?i:(?<=[^\\wа-яё\\.]|^)(Экспорт|Export)(?=[^\\wа-яё\\.]|$))"
+        },
+        {
+          "name": "variable.bsl",
+          "match": "(?i:[a-zа-яё0-9_]+)"
+        }
+      ]
+    },
     "comment": {
       "patterns": [
         {
-          "name": "comment.block.documentation.js",
+          "name": "comment.block.documentation.bsl",
           "begin": "/\\*\\*(?!/)",
           "beginCaptures": {
             "0": {
-              "name": "punctuation.definition.comment.js"
+              "name": "punctuation.definition.comment.bsl"
             }
           },
           "end": "\\*/",
           "endCaptures": {
             "0": {
-              "name": "punctuation.definition.comment.js"
+              "name": "punctuation.definition.comment.bsl"
             }
           },
           "patterns": [
@@ -287,23 +369,23 @@
           ]
         },
         {
-          "name": "comment.block.js",
+          "name": "comment.block.bsl",
           "begin": "(/\\*)(?:\\s*((@)internal)(?=\\s|(\\*/)))?",
           "beginCaptures": {
             "1": {
-              "name": "punctuation.definition.comment.js"
+              "name": "punctuation.definition.comment.bsl"
             },
             "2": {
-              "name": "storage.type.internaldeclaration.js"
+              "name": "storage.type.internaldeclaration.bsl"
             },
             "3": {
-              "name": "punctuation.decorator.internaldeclaration.js"
+              "name": "punctuation.decorator.internaldeclaration.bsl"
             }
           },
           "end": "\\*/",
           "endCaptures": {
             "0": {
-              "name": "punctuation.definition.comment.js"
+              "name": "punctuation.definition.comment.bsl"
             }
           }
         },
@@ -311,23 +393,23 @@
           "begin": "(^[ \\t]+)?((//)(?:\\s*((@)internal)(?=\\s|$))?)",
           "beginCaptures": {
             "1": {
-              "name": "punctuation.whitespace.comment.leading.js"
+              "name": "punctuation.whitespace.comment.leading.bsl"
             },
             "2": {
-              "name": "comment.line.double-slash.js"
+              "name": "comment.line.double-slash.bsl"
             },
             "3": {
-              "name": "punctuation.definition.comment.js"
+              "name": "punctuation.definition.comment.bsl"
             },
             "4": {
-              "name": "storage.type.internaldeclaration.js"
+              "name": "storage.type.internaldeclaration.bsl"
             },
             "5": {
-              "name": "punctuation.decorator.internaldeclaration.js"
+              "name": "punctuation.decorator.internaldeclaration.bsl"
             }
           },
           "end": "(?=$)",
-          "contentName": "comment.line.double-slash.js"
+          "contentName": "comment.line.double-slash.bsl"
         }
       ]
     }
