@@ -43,7 +43,7 @@
 			"label": "build-language",
 			"type": "shell",
 			"group": "build",
-			"command": "npx tsc ./syntaxes/onecLanguage/onecLanguage.ts --baseUrl ./syntaxes/onecLanguage && node ./syntaxes/onecLanguage/onecLanguage.js"
+			"command": "npx tsc ./syntaxes/onecLanguage/onecLanguage.ts --baseUrl . --outDir ./scripts/out && node ./scripts/out/onecLanguage.js"
 		},
 		{
 			"label": "build-scripts",
